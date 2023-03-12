@@ -7,33 +7,38 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { WorkerService } from './worker.service';
+import { CreateWorkerDto } from './models/create.worker.dto';
+import { UpdateWorkerDto } from './models/update.worker.dto';
 
+@ApiTags('Рабы')
 @Controller('worker')
 export class WorkerController {
-  constructor() {}
+  constructor(private readonly service: WorkerService) {}
 
   @Get()
-  public async getAll(@Body() filter: any) {
-    return filter;
+  public async getAll() {
+    return this.service.getAll();
   }
 
   @Get(':id')
   public async getById(@Param('id') id: number) {
-    return id;
+    return this.service.getById(id);
   }
 
   @Post()
-  public async create(@Body() payload: any) {
-    return payload;
+  public async create(@Body() payload: CreateWorkerDto) {
+    return this.service.create(payload);
   }
 
-  @Patch(':id')
-  public async update(@Param() id: number, @Body() payload: any) {
-    return { id, payload };
+  @Patch()
+  public async update(@Body() payload: UpdateWorkerDto) {
+    return this.service.update(payload);
   }
 
   @Delete(':id')
   public async delete(@Param('id') id: number) {
-    return id;
+    return this.service.delete(id);
   }
 }
