@@ -11,9 +11,8 @@ import { FlatService } from './flat.service';
 import { FlatFilterDto } from './models/flat.filter.dto';
 import { FlatDto } from './models/flat.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Flat } from './models/flat.model';
 
-@ApiTags('Flat')
+@ApiTags('Квартиры')
 @Controller('flat')
 export class FlatController {
   constructor(private readonly service: FlatService) {}
