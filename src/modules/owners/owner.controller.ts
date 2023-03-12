@@ -32,7 +32,7 @@ export class OwnerController {
     return this.service.create(payload);
   }
 
-  @Patch(':id')
+  @Patch()
   public async update(@Body() payload: OwnerUpdateDto) {
     return this.service.update(payload);
   }
