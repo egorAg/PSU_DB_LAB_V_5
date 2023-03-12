@@ -10,15 +10,15 @@ import {
 import { FlatService } from './flat.service';
 import { FlatFilterDto } from './models/flat.filter.dto';
 import { FlatDto } from './models/flat.dto';
-import { ApiTags } from "@nestjs/swagger";
-import { Flat } from "./models/flat.model";
+import { ApiTags } from '@nestjs/swagger';
+import { Flat } from './models/flat.model';
 
 @ApiTags('Flat')
 @Controller('flat')
 export class FlatController {
   constructor(private readonly service: FlatService) {}
 
-  @Get()
+  @Post('getAll')
   public async getAll(@Body() filter: FlatFilterDto) {
     return this.service.getAll(filter);
   }
