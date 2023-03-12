@@ -6,7 +6,6 @@ import { FlatFilterDto } from './models/flat.filter.dto';
 import { FlatDto } from './models/flat.dto';
 import { Owner } from '../owners/models/owner.model';
 import { OwnerService } from '../owners/owner.service';
-import { filter } from 'rxjs';
 
 export class FlatService {
   constructor(
@@ -16,36 +15,28 @@ export class FlatService {
   ) {}
 
   getAll = async (filter: FlatFilterDto) => {
-    const where: any = {};
+    let ow: Owner;
 
-    if (filter.ownerId) where.intOwnerId = '';
+    if (filter.ownerId) ow = await this.ownerService.getById(filter.ownerId);
 
-    if (filter.intCountMax && !filter.intCountMin)
-      where.intCount = LessThanOrEqual(filter.intCountMax);
-
-    if (filter.intCountMin && !filter.intCountMax)
-      where.intCount = MoreThanOrEqual(filter.intCountMin);
-
-    if (filter.intCountMin && filter.intCountMax)
-      where.intCount = Between(filter.intCountMin, filter.intCountMax);
-
-    if (filter.fltAreaMax && !filter.intCountMin)
-      where.fltAreaMax = LessThanOrEqual(filter.fltAreaMax);
-
-    if (filter.fltAreaMax && !filter.intCountMin)
-      where.fltAreaMax = MoreThanOrEqual(filter.fltAreaMin);
-
-    if (filter.fltAreaMax && !filter.intCountMin)
-      where.fltAreaMax = Between(filter.fltAreaMin, filter.fltAreaMax);
-
-    if (filter.intStoreyMax && !filter.intStoreyMin)
-      where.intStorey = LessThanOrEqual(filter.intStoreyMax);
-
-    if (filter.fltAreaMax && !filter.intCountMin)
-      where.intStorey = MoreThanOrEqual(filter.intStoreyMin);
-
-    if (filter.fltAreaMax && !filter.intCountMin)
-      where.intStorey = Between(filter.intCountMin, filter.intCountMax);
+    const where = {
+      intOwnerId: filter.ownerId ? ow : null,
+      intStorey: filter.intStoreyMax
+        ? filter.intStoreyMin
+          ? Between(filter.intStoreyMin, filter.intStoreyMax)
+          : LessThanOrEqual(filter.intStoreyMax)
+        : MoreThanOrEqual(filter.intStoreyMin ?? 0),
+      intCount: filter.intCountMax
+        ? filter.intCountMin
+          ? Between(filter.intCountMin, filter.intCountMax)
+          : LessThanOrEqual(filter.intCountMax)
+        : MoreThanOrEqual(filter.intCountMin ?? 0),
+      fltArea: filter.fltAreaMax
+        ? filter.fltAreaMin
+          ? Between(filter.fltAreaMin, filter.fltAreaMax)
+          : LessThanOrEqual(filter.fltAreaMax)
+        : MoreThanOrEqual(filter.fltAreaMin ?? 0),
+    };
 
     return this.flatRepo.find({
       where: where,
@@ -74,7 +65,7 @@ export class FlatService {
 
     if (!res) {
       throw new HttpException(
-        `Flat with id: ${id} not found`,
+        `Квартира с ID: ${id} не найдена!`,
         HttpStatus.NOT_FOUND,
       );
     }
@@ -87,15 +78,18 @@ export class FlatService {
     if (model.ownerId) {
       owner = await this.ownerService.getById(model.ownerId);
       const res = await this.flatRepo.create({ ...model, intOwnerId: owner });
+      await this.flatRepo.save(res);
       return res;
     }
-    return this.flatRepo.create({ ...model });
+    const res = await this.flatRepo.create({ ...model });
+    await this.flatRepo.save(res);
+    return res;
   };
 
   update = async (model: FlatDto) => {
     if (!model.intFlatId)
       throw new HttpException(
-        'intOwnerId is required!',
+        'Поле intOwnerId - обяхательно!',
         HttpStatus.BAD_REQUEST,
       );
 
@@ -103,11 +97,6 @@ export class FlatService {
 
     if (model.ownerId) {
       owner = await this.ownerService.getById(model.ownerId);
-      if (!owner)
-        throw new HttpException(
-          `Owner with id: ${model.ownerId} not found`,
-          HttpStatus.NOT_FOUND,
-        );
     }
 
     const flat = await this.flatRepo.findOne({
@@ -118,7 +107,7 @@ export class FlatService {
 
     if (!flat)
       throw new HttpException(
-        `Flat with id: ${model.intFlatId} not found!`,
+        `Квартира с ID: ${model.intFlatId} не найдена!`,
         HttpStatus.NOT_FOUND,
       );
 
