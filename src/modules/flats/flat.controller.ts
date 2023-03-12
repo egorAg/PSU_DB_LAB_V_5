@@ -11,6 +11,7 @@ import { FlatService } from './flat.service';
 import { FlatFilterDto } from './models/flat.filter.dto';
 import { FlatDto } from './models/flat.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FlatUpdateDto } from './models/flat.update.dto';
 
 @ApiTags('Квартиры')
 @Controller('flat')
@@ -32,9 +33,9 @@ export class FlatController {
     return this.service.create(payload);
   }
 
-  @Patch(':id')
-  public async update(@Param() id: number, @Body() payload: FlatDto) {
-    return this.service.update({ ...payload, intFlatId: id });
+  @Patch()
+  public async update(@Body() payload: FlatUpdateDto) {
+    return this.service.update(payload);
   }
 
   @Delete(':id')

@@ -1,7 +1,17 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class FlatDto {
+export class FlatUpdateDto {
+  @ApiProperty({
+    type: Number,
+    description: 'ID квартиры',
+    example: 123,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  id: number;
+
   @ApiProperty({
     type: Number,
     description: 'Полный адрес квартиры',
@@ -9,7 +19,7 @@ export class FlatDto {
       'дом 1, ул. Пушкина, г. Москва, Россия, платена SOL-3, Солнечная система, галактический рукав Ориона, галактика Млечный Путь, Местная группа галактик, скопление Девы, сверхскопление Девы, сверхскопление Ланиакея, комплекс сверхскоплений (галактическая нить) Рыб-Кита.',
     required: false,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   txtFlatAddress: string;
 
@@ -19,7 +29,7 @@ export class FlatDto {
     example: 90.5,
     required: false,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   fltArea: number;
 
@@ -29,7 +39,7 @@ export class FlatDto {
     example: 50,
     required: false,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   intCount: number;
 
@@ -39,7 +49,7 @@ export class FlatDto {
     example: 1,
     required: false,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   intStorey: number;
 

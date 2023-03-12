@@ -6,6 +6,7 @@ import { FlatFilterDto } from './models/flat.filter.dto';
 import { FlatDto } from './models/flat.dto';
 import { Owner } from '../owners/models/owner.model';
 import { OwnerService } from '../owners/owner.service';
+import { FlatUpdateDto } from './models/flat.update.dto';
 
 export class FlatService {
   constructor(
@@ -86,32 +87,25 @@ export class FlatService {
     return res;
   };
 
-  update = async (model: FlatDto) => {
-    if (!model.intFlatId)
-      throw new HttpException(
-        'Поле intOwnerId - обяхательно!',
-        HttpStatus.BAD_REQUEST,
-      );
+  update = async (model: FlatUpdateDto) => {
+    let owner: Owner | undefined;
 
-    let owner: Owner;
+    const flat = await this.getById(model.id, false);
+
+    if (!flat)
+      throw new HttpException(
+        `Квартира с ID: ${model.id} не найдена!`,
+        HttpStatus.NOT_FOUND,
+      );
 
     if (model.ownerId) {
       owner = await this.ownerService.getById(model.ownerId);
     }
 
-    const flat = await this.flatRepo.findOne({
-      where: {
-        intFlatId: model.intFlatId,
-      },
+    await this.flatRepo.update(flat, {
+      ...model,
+      intOwnerId: owner ? owner : flat.intOwnerId,
     });
-
-    if (!flat)
-      throw new HttpException(
-        `Квартира с ID: ${model.intFlatId} не найдена!`,
-        HttpStatus.NOT_FOUND,
-      );
-
-    await this.flatRepo.update({ ...model, intOwnerId: owner }, flat);
   };
 
   delete = async (id: number) => {
