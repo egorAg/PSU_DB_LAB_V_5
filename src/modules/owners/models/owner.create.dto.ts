@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class OwnerCreateDto {
   @ApiProperty({
     type: String,
-    example: 'Путин',
+    example: 'Иванов',
     description: 'Фамилия владельца',
   })
   @IsNotEmpty()
@@ -13,7 +13,7 @@ export class OwnerCreateDto {
 
   @ApiProperty({
     type: String,
-    example: 'Владимир',
+    example: 'Иван',
     description: 'Имя владельца',
   })
   @IsNotEmpty()
@@ -22,7 +22,7 @@ export class OwnerCreateDto {
 
   @ApiProperty({
     type: String,
-    example: 'Владимирович',
+    example: 'Иванович',
     description: 'Отчество владельца',
     required: false,
   })

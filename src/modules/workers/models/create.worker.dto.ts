@@ -4,8 +4,8 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateWorkerDto {
   @ApiProperty({
     type: String,
-    example: 'Медведев',
-    description: 'Фамилия азаитского раба',
+    example: 'Владимиров',
+    description: 'Фамилия работника',
     required: true,
   })
   @IsNotEmpty()
@@ -14,8 +14,8 @@ export class CreateWorkerDto {
 
   @ApiProperty({
     type: String,
-    example: 'Дмитрий',
-    description: 'Фамилия уважаемого раба из Азии',
+    example: 'Владимир',
+    description: 'Фамилия работника',
     required: true,
   })
   @IsNotEmpty()
@@ -24,8 +24,8 @@ export class CreateWorkerDto {
 
   @ApiProperty({
     type: String,
-    example: 'Анатольевич',
-    description: 'Комментарии излишни',
+    example: 'Владимирович',
+    description: 'Отчество',
     required: false,
   })
   @IsOptional()
@@ -35,7 +35,7 @@ export class CreateWorkerDto {
   @ApiProperty({
     type: String,
     example: 'Сварщик',
-    description: 'Кто ты по специальности, войн?',
+    description: 'Специальность работника',
     required: true,
   })
   @IsNotEmpty()
@@ -45,7 +45,7 @@ export class CreateWorkerDto {
   @ApiProperty({
     type: String,
     example: +new Date(),
-    description: 'Сколько ты зарабатываешь?',
+    description: 'Заработок работника',
     required: true,
   })
   @IsNotEmpty()

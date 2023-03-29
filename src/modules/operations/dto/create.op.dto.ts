@@ -23,7 +23,7 @@ export class CreateOpDto {
   @ApiProperty({
     type: String,
     description: 'Описание выполненных работ',
-    example: 'Почистил братские трубы',
+    example: 'Почистил трубы',
     required: true,
   })
   @IsNotEmpty()

@@ -5,7 +5,7 @@ export class UpdateWorkerDto {
   @ApiProperty({
     type: Number,
     example: 1,
-    description: 'ID раба',
+    description: 'ID работника',
     required: true,
   })
   @IsNotEmpty()
@@ -14,8 +14,8 @@ export class UpdateWorkerDto {
 
   @ApiProperty({
     type: String,
-    example: 'Медведев',
-    description: 'Фамилия азаитского раба',
+    example: 'Власов',
+    description: 'Фамилия работника',
     required: false,
   })
   @IsOptional()
@@ -24,8 +24,8 @@ export class UpdateWorkerDto {
 
   @ApiProperty({
     type: String,
-    example: 'Дмитрий',
-    description: 'Фамилия уважаемого раба из Азии',
+    example: 'Игорь',
+    description: 'Имя работника',
     required: false,
   })
   @IsOptional()
@@ -35,7 +35,7 @@ export class UpdateWorkerDto {
   @ApiProperty({
     type: String,
     example: 'Анатольевич',
-    description: 'Комментарии излишни',
+    description: 'Отчество работника',
     required: false,
   })
   @IsOptional()
@@ -45,7 +45,7 @@ export class UpdateWorkerDto {
   @ApiProperty({
     type: String,
     example: 'Сварщик',
-    description: 'Кто ты по специальности, войн?',
+    description: 'Специальность работника',
     required: false,
   })
   @IsOptional()
@@ -55,7 +55,7 @@ export class UpdateWorkerDto {
   @ApiProperty({
     type: String,
     example: +new Date(),
-    description: 'Сколько ты зарабатываешь?',
+    description: 'ЗП работника',
     required: false,
   })
   @IsOptional()

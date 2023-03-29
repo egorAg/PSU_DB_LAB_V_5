@@ -14,7 +14,7 @@ export class OwnerUpdateDto {
 
   @ApiProperty({
     type: String,
-    example: 'Путин',
+    example: 'Иванов',
     description: 'Фамилия владельца',
     required: false,
   })
@@ -24,7 +24,7 @@ export class OwnerUpdateDto {
 
   @ApiProperty({
     type: String,
-    example: 'Владимир',
+    example: 'Иван',
     description: 'Имя владельца',
     required: false,
   })
@@ -34,7 +34,7 @@ export class OwnerUpdateDto {
 
   @ApiProperty({
     type: String,
-    example: 'Владимирович',
+    example: 'Иванович',
     description: 'Отчество владельца',
     required: false,
   })
@@ -44,7 +44,7 @@ export class OwnerUpdateDto {
 
   @ApiProperty({
     type: String,
-    example: 'Пушкина Колотушкина 1',
+    example: 'Пушкина Колотушкина 2',
     description: 'Адресс проживания владельца',
     required: false,
   })

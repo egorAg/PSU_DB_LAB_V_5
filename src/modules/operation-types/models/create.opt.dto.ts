@@ -14,7 +14,7 @@ export class CreateOptDto {
 
   @ApiProperty({
     type: String,
-    example: 'Ремонт азиаатского ебальника',
+    example: 'Ремонт труб',
     description: 'Имя типа операци',
     required: true,
   })

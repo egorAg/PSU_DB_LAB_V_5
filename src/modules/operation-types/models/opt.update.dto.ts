@@ -14,7 +14,7 @@ export class OptUpdateDto {
 
   @ApiProperty({
     type: String,
-    example: 'Ремонт азиаатского ебальника',
+    example: 'Ремонт крана',
     description: 'Имя типа операци',
     required: false,
   })
