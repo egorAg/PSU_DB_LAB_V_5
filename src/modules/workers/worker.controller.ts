@@ -12,7 +12,7 @@ import { WorkerService } from './worker.service';
 import { CreateWorkerDto } from './models/create.worker.dto';
 import { UpdateWorkerDto } from './models/update.worker.dto';
 
-@ApiTags('Рабы')
+@ApiTags('Работники')
 @Controller('worker')
 export class WorkerController {
   constructor(private readonly service: WorkerService) {}
