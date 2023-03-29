@@ -9,5 +9,6 @@ import { OwnerModule } from '../owners/owner.modul';
   imports: [TypeOrmModule.forFeature([Flat]), OwnerModule],
   controllers: [FlatController],
   providers: [FlatService],
+  exports: [FlatService],
 })
 export class FlatModule {}

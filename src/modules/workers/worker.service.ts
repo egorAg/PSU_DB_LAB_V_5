@@ -15,7 +15,7 @@ export class WorkerService {
     return this.workerRepo.find();
   };
 
-  getById = async (id: number) => {
+  getById = async (id: number): Promise<Worker> => {
     const candidate = await this.workerRepo.findOne({
       where: {
         intWorkerId: id,

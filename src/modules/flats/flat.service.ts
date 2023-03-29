@@ -1,6 +1,12 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Flat } from './models/flat.model';
-import { Between, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
+import {
+  Between,
+  Equal,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { FlatFilterDto } from './models/flat.filter.dto';
 import { FlatDto } from './models/flat.dto';
@@ -21,7 +27,7 @@ export class FlatService {
     if (filter.ownerId) ow = await this.ownerService.getById(filter.ownerId);
 
     const where = {
-      intOwnerId: filter.ownerId ? ow : null,
+      intOwnerId: Equal(ow?.intOwnerId ?? null),
       intStorey: filter.intStoreyMax
         ? filter.intStoreyMin
           ? Between(filter.intStoreyMin, filter.intStoreyMax)

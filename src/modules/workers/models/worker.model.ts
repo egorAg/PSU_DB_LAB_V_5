@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Operation } from '../../operations/models/operation.model';
 
 @Entity()
@@ -25,6 +31,7 @@ export class Worker {
   })
   fltSum: number;
 
-  @ManyToOne(() => Operation)
+  @OneToMany(() => Operation, (op) => op.intWorkerId)
+  @JoinColumn()
   operations: Operation[];
 }

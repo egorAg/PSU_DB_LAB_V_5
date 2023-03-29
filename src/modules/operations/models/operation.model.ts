@@ -3,10 +3,10 @@ import { OperationType } from 'src/modules/operation-types/models/op.model';
 import {
   Column,
   Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
+  ManyToMany,
   PrimaryGeneratedColumn,
+  JoinTable,
+  ManyToOne,
 } from 'typeorm';
 import { Worker } from '../../workers/models/worker.model';
 
@@ -15,21 +15,23 @@ export class Operation {
   @PrimaryGeneratedColumn()
   intOperationId: number;
 
-  @Column()
+  @Column({
+    default: new Date(),
+  })
   datOperationDate: Date;
 
   @Column()
   txtOperationDescription: string;
 
-  @OneToMany(() => Worker, (worker) => worker.operations)
-  @JoinColumn()
+  @ManyToOne(() => Worker, (worker) => worker.operations)
   intWorkerId: Worker;
 
-  @OneToMany(() => Flat, (flat) => flat.operations)
-  @JoinColumn()
+  @ManyToOne(() => Flat, (flat) => flat.operations)
   flats: Flat;
 
-  @ManyToOne(() => OperationType)
-  @JoinColumn()
+  @ManyToMany(() => OperationType, undefined, {
+    cascade: true,
+  })
+  @JoinTable()
   intOperationTypeId: OperationType[];
 }

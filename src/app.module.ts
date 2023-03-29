@@ -34,6 +34,7 @@ import { WorkerModule } from './modules/workers/worker.modul';
         database: config.get<string>('DB_NAME') ?? 'lab_5',
         entities: [Flat, OperationType, Operation, Owner, Worker],
         synchronize: true,
+        logging: true,
       }),
     }),
   ],

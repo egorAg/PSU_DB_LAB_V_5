@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Operation } from '../../operations/models/operation.model';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class OperationType {
@@ -13,7 +12,4 @@ export class OperationType {
     type: 'decimal',
   })
   fltOperationPrice: number;
-
-  @ManyToOne(() => Operation, (op) => op.intOperationTypeId)
-  operations: Operation[];
 }

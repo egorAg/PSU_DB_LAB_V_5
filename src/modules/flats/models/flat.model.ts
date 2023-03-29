@@ -3,7 +3,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -38,6 +38,6 @@ export class Flat {
   @JoinColumn()
   intOwnerId: Owner;
 
-  @ManyToOne(() => Operation)
+  @OneToMany(() => Operation, (op) => op.flats)
   operations: Operation[];
 }

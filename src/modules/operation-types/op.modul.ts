@@ -8,5 +8,6 @@ import { OptService } from './op.service';
   imports: [TypeOrmModule.forFeature([OperationType])],
   controllers: [OptController],
   providers: [OptService],
+  exports: [OptService],
 })
 export class OptModule {}

@@ -8,5 +8,6 @@ import { WorkerService } from './worker.service';
   imports: [TypeOrmModule.forFeature([Worker])],
   controllers: [WorkerController],
   providers: [WorkerService],
+  exports: [WorkerService],
 })
 export class WorkerModule {}
