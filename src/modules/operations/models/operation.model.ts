@@ -9,17 +9,21 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Worker } from '../../workers/models/worker.model';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Operation {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   intOperationId: number;
 
+  @ApiProperty()
   @Column({
     default: new Date(),
   })
   datOperationDate: Date;
 
+  @ApiProperty()
   @Column()
   txtOperationDescription: string;
 

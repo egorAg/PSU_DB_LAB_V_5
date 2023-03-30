@@ -41,9 +41,13 @@ export class OptService {
   update = async (payload: OptUpdateDto) => {
     const candidate = await this.getById(payload.id);
 
+    const id = payload.id;
+
     delete payload.id;
 
     await this.optRepo.update(candidate, payload);
+
+    return this.getById(id);
   };
 
   delete = async (id: number) => {
