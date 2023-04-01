@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Operation } from '../../operations/models/operation.model';
@@ -49,7 +48,7 @@ export class Flat {
       txtAddress: 'Адресс',
     },
   })
-  @OneToOne(() => Owner)
+  @OneToMany(() => Owner, (ow) => ow.flats)
   @JoinColumn()
   intOwnerId: Owner;
 

@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { Flat } from '../../flats/models/flat.model';
 
 @Entity()
 export class Owner {
@@ -26,4 +27,7 @@ export class Owner {
   @ApiProperty()
   @Column()
   txtAddress: string;
+
+  @ManyToOne(() => Flat, (flat) => flat.operations)
+  flats: Flat;
 }
