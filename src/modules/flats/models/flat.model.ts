@@ -2,12 +2,13 @@ import { Owner } from 'src/modules/owners/models/owner.model';
 import {
   Column,
   Entity,
-  JoinColumn, ManyToOne,
+  JoinColumn, JoinTable, ManyToMany, ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn
 } from "typeorm";
 import { Operation } from '../../operations/models/operation.model';
 import { ApiProperty } from '@nestjs/swagger';
+import { OperationType } from "../../operation-types/models/op.model";
 
 @Entity()
 export class Flat {
@@ -48,9 +49,11 @@ export class Flat {
       txtAddress: 'Адресс',
     },
   })
-  @OneToMany(() => Owner, (ow) => ow.flats)
-  @JoinColumn()
-  intOwnerId: Owner;
+  @ManyToMany(() => Owner, (ow) => ow.flats, {
+    cascade: false,
+  })
+  @JoinTable()
+  intOwnerId: Owner[];
 
   @ApiProperty({
     isArray: true,

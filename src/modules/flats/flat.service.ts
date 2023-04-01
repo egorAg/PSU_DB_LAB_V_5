@@ -89,16 +89,20 @@ export class FlatService {
   };
 
   create = async (model: FlatDto) => {
-    let owner: Owner;
     if (model.ownerId) {
-      owner = await this.ownerService.getById(model.ownerId);
-      const res = await this.flatRepo.create({ ...model, intOwnerId: owner });
+      const ow = await this.ownerService.getById(model.ownerId);
+      const res = await this.flatRepo.create({ ...model });
+      console.log(ow);
+      console.log(res);
+      res.intOwnerId = [ow];
+      console.log(res);
+      await this.flatRepo.save(res);
+      return res;
+    } else {
+      const res = await this.flatRepo.create({ ...model });
       await this.flatRepo.save(res);
       return res;
     }
-    const res = await this.flatRepo.create({ ...model });
-    await this.flatRepo.save(res);
-    return res;
   };
 
   update = async (model: FlatUpdateDto) => {
@@ -116,9 +120,21 @@ export class FlatService {
       owner = await this.ownerService.getById(model.ownerId);
     }
 
+    const candidate = await this.getById(model.id, true);
+
+    delete model.id;
+
+    let owners = candidate.intOwnerId;
+
+    if (!owners?.length) {
+      owners = [owner];
+    } else {
+      owners.push(owner);
+    }
+
     await this.flatRepo.update(flat, {
       ...model,
-      intOwnerId: owner ? owner : flat.intOwnerId,
+      intOwnerId: owners,
     });
   };
 

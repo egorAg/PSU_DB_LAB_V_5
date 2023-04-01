@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { OwnerCreateDto } from './models/owner.create.dto';
 import { OwnerUpdateDto } from './models/owner.update.dto';
+import { Flat } from '../flats/models/flat.model';
 
 export class OwnerService {
   constructor(
@@ -20,6 +21,9 @@ export class OwnerService {
       where: {
         intOwnerId: id,
       },
+      relations: {
+        flats: true
+      }
     });
 
     if (!res) {
