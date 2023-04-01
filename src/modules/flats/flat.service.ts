@@ -1,12 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Flat } from './models/flat.model';
-import {
-  Between,
-  Equal,
-  LessThanOrEqual,
-  MoreThanOrEqual,
-  Repository,
-} from 'typeorm';
+import { Repository } from 'typeorm';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { FlatFilterDto } from './models/flat.filter.dto';
 import { FlatDto } from './models/flat.dto';
@@ -22,39 +16,68 @@ export class FlatService {
   ) {}
 
   getAll = async (filter: FlatFilterDto) => {
-    let ow: Owner;
+    await this.ownerService.getById(filter.ownerId);
 
-    if (filter.ownerId) ow = await this.ownerService.getById(filter.ownerId);
+    const queryBuilder = this.flatRepo
+      .createQueryBuilder('flat')
+      .leftJoinAndSelect('flat.intOwnerId', 'owner');
 
-    const where = {
-      intOwnerId: filter.ownerId ? Equal(ow?.intOwnerId) : null,
-      intStorey: filter.intStoreyMax
-        ? filter.intStoreyMin
-          ? Between(filter.intStoreyMin, filter.intStoreyMax)
-          : LessThanOrEqual(filter.intStoreyMax)
-        : MoreThanOrEqual(filter.intStoreyMin ?? 0),
-      intCount: filter.intCountMax
-        ? filter.intCountMin
-          ? Between(filter.intCountMin, filter.intCountMax)
-          : LessThanOrEqual(filter.intCountMax)
-        : MoreThanOrEqual(filter.intCountMin ?? 0),
-      fltArea: filter.fltAreaMax
-        ? filter.fltAreaMin
-          ? Between(filter.fltAreaMin, filter.fltAreaMax)
-          : LessThanOrEqual(filter.fltAreaMax)
-        : MoreThanOrEqual(filter.fltAreaMin ?? 0),
-    };
-
-    if (!where.intOwnerId) {
-      delete where.intOwnerId;
+    if (filter.ownerId) {
+      queryBuilder.where('owner.intOwnerId = :ownerId', {
+        ownerId: filter.ownerId,
+      });
     }
 
-    return this.flatRepo.find({
-      where: where,
-      relations: {
-        intOwnerId: true,
-      },
-    });
+    if (filter.fltAreaMin !== undefined) {
+      queryBuilder.andWhere('flat.fltArea >= :fltAreaMin', {
+        fltAreaMin: filter.fltAreaMin,
+      });
+    }
+
+    if (filter.fltAreaMax !== undefined) {
+      queryBuilder.andWhere('flat.fltArea <= :fltAreaMax', {
+        fltAreaMax: filter.fltAreaMax,
+      });
+    }
+
+    if (filter.intCountMin !== undefined) {
+      queryBuilder.andWhere('flat.intCount >= :intCountMin', {
+        intCountMin: filter.intCountMin,
+      });
+    }
+
+    if (filter.intCountMax !== undefined) {
+      queryBuilder.andWhere('flat.intCount <= :intCountMax', {
+        intCountMax: filter.intCountMax,
+      });
+    }
+
+    if (filter.intStoreyMin !== undefined) {
+      queryBuilder.andWhere('flat.intStorey >= :intStoreyMin', {
+        intStoreyMin: filter.intStoreyMin,
+      });
+    }
+
+    if (filter.intStoreyMax !== undefined) {
+      queryBuilder.andWhere('flat.intStorey <= :intStoreyMax', {
+        intStoreyMax: filter.intStoreyMax,
+      });
+    }
+
+    queryBuilder.select([
+      'flat.intFlatId',
+      'flat.txtFlatAddress',
+      'flat.fltArea',
+      'flat.intCount',
+      'flat.intStorey',
+      'owner.intOwnerId',
+      'owner.txtOwnerSurname',
+      'owner.txtOwnerName',
+      'owner.txtOwnerSecondName',
+      'owner.txtAddress',
+    ]);
+
+    return await queryBuilder.getMany();
   };
 
   getById = async (id: number, nested: boolean) => {

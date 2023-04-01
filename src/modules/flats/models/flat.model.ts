@@ -2,13 +2,13 @@ import { Owner } from 'src/modules/owners/models/owner.model';
 import {
   Column,
   Entity,
-  JoinColumn, JoinTable, ManyToMany, ManyToOne,
+  JoinTable,
+  ManyToMany,
   OneToMany,
-  PrimaryGeneratedColumn
-} from "typeorm";
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Operation } from '../../operations/models/operation.model';
 import { ApiProperty } from '@nestjs/swagger';
-import { OperationType } from "../../operation-types/models/op.model";
 
 @Entity()
 export class Flat {
