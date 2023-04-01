@@ -16,6 +16,7 @@ async function bootstrap() {
     .setDescription('Лабораторная работа №5')
     .setVersion('0.9')
     .setContact(`Egor Ageev`, 'https://t.me/ageev3gor', 'ShonS1v4@icloud.com')
+    .addServer(`http://194.67.118.166:3000`, 'API')
     .addServer(`http://194.67.118.166:3000/explorer`, 'Документация к API')
     .addServer(`http://194.67.118.166:5432`, 'База данных доступна по адресу', {
       'Имя базы данных': {
