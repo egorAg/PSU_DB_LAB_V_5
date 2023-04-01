@@ -27,7 +27,7 @@ export class FlatService {
     if (filter.ownerId) ow = await this.ownerService.getById(filter.ownerId);
 
     const where = {
-      intOwnerId: Equal(ow?.intOwnerId ?? null),
+      intOwnerId: filter.ownerId ? Equal(ow?.intOwnerId) : null,
       intStorey: filter.intStoreyMax
         ? filter.intStoreyMin
           ? Between(filter.intStoreyMin, filter.intStoreyMax)
@@ -44,6 +44,10 @@ export class FlatService {
           : LessThanOrEqual(filter.fltAreaMax)
         : MoreThanOrEqual(filter.fltAreaMin ?? 0),
     };
+
+    if (!where.intOwnerId) {
+      delete where.intOwnerId;
+    }
 
     return this.flatRepo.find({
       where: where,
