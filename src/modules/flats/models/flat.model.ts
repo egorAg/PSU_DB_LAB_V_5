@@ -2,10 +2,10 @@ import { Owner } from 'src/modules/owners/models/owner.model';
 import {
   Column,
   Entity,
-  JoinColumn,
+  JoinColumn, ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { Operation } from '../../operations/models/operation.model';
 import { ApiProperty } from '@nestjs/swagger';
 
