@@ -51,13 +51,16 @@ export class FlatService {
 
     return this.flatRepo.find({
       where: where,
+      relations: {
+        intOwnerId: true,
+      },
     });
   };
 
   getById = async (id: number, nested: boolean) => {
     let res: Flat;
 
-    if (nested)
+    if (nested === true) {
       res = await this.flatRepo.findOne({
         where: {
           intFlatId: id,
@@ -67,12 +70,13 @@ export class FlatService {
           intOwnerId: true,
         },
       });
-
-    res = await this.flatRepo.findOne({
-      where: {
-        intFlatId: id,
-      },
-    });
+    } else {
+      res = await this.flatRepo.findOne({
+        where: {
+          intFlatId: id,
+        },
+      });
+    }
 
     if (!res) {
       throw new HttpException(
