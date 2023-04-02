@@ -8,7 +8,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: '*',
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
   });
 
@@ -19,8 +19,9 @@ async function bootstrap() {
     .setDescription('Лабораторная работа №5')
     .setVersion('0.9')
     .setContact(`Egor Ageev`, 'https://t.me/ageev3gor', 'ShonS1v4@icloud.com')
-    .addServer(`http://194.67.118.166:3000`, 'API')
-    .addServer(`http://194.67.118.166:3000/explorer`, 'Документация к API')
+    .addServer(`http://194.67.118.166:8080`, 'API')
+    .addServer(`http://localhost:8080`, 'APILocale')
+    .addServer(`http://194.67.118.166:8080/explorer`, 'Документация к API')
     .addServer(`http://194.67.118.166:5432`, 'База данных доступна по адресу', {
       'Имя базы данных': {
         default: 'lab_5',
@@ -58,6 +59,6 @@ async function bootstrap() {
 
   SwaggerModule.setup('explorer', app, document);
 
-  await app.listen(3000);
+  await app.listen(8080);
 }
 bootstrap();
