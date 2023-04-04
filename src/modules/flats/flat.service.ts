@@ -133,12 +133,6 @@ export class FlatService {
 
     const flat = await this.getById(model.id, false);
 
-    if (!flat)
-      throw new HttpException(
-        `Квартира с ID: ${model.id} не найдена!`,
-        HttpStatus.NOT_FOUND,
-      );
-
     if (model.ownerId) {
       owner = await this.ownerService.getById(model.ownerId);
     }
@@ -155,10 +149,12 @@ export class FlatService {
       owners.push(owner);
     }
 
-    await this.flatRepo.update(flat, {
+    const model_new = await this.flatRepo.merge(flat, {
       ...model,
       intOwnerId: owners,
     });
+
+    return this.flatRepo.save(model_new);
   };
 
   delete = async (id: number) => {

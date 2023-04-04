@@ -46,7 +46,9 @@ export class OwnerService {
 
     delete data['id'];
 
-    await this.ownerRepo.update(owner, data);
+    const new_model = await this.ownerRepo.merge(owner, { ...data });
+
+    return this.ownerRepo.save(new_model);
   };
 
   delete = async (id: number) => {

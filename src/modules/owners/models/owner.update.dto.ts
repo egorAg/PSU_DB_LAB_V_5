@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class OwnerUpdateDto {
@@ -9,7 +9,7 @@ export class OwnerUpdateDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   id: number;
 
   @ApiProperty({
