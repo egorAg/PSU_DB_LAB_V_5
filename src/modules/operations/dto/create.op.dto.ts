@@ -1,6 +1,5 @@
 import {
   IsArray,
-  IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -17,8 +16,8 @@ export class CreateOpDto {
     required: false,
   })
   @IsOptional()
-  @IsDate()
-  datOperationDate?: string;
+  @IsString()
+  datOperationDate?: Date;
 
   @ApiProperty({
     type: String,
