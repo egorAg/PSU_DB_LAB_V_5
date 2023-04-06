@@ -16,13 +16,13 @@ export class FlatService {
   ) {}
 
   getAll = async (filter: FlatFilterDto) => {
-    await this.ownerService.getById(filter.ownerId);
+    if (filter.ownerId) await this.ownerService.getById(filter.ownerId);
 
     const queryBuilder = this.flatRepo
       .createQueryBuilder('flat')
       .leftJoinAndSelect('flat.intOwnerId', 'owner');
 
-    if (filter.ownerId) {
+    if (filter.ownerId !== undefined) {
       queryBuilder.where('owner.intOwnerId = :ownerId', {
         ownerId: filter.ownerId,
       });

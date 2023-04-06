@@ -53,6 +53,6 @@ export class OwnerService {
 
   delete = async (id: number) => {
     const candidate = await this.getById(id);
-    await this.ownerRepo.delete(candidate);
+    await this.ownerRepo.remove(candidate);
   };
 }

@@ -29,7 +29,7 @@ export class Owner {
   txtAddress: string;
 
   @ManyToMany(() => Flat, (flat) => flat.intOwnerId, {
-    cascade: false,
+    cascade: true,
   })
   flats: Flat[];
 }
