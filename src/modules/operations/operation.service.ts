@@ -48,6 +48,11 @@ export class OperationService {
 
     return this.opRepo.find({
       where: where,
+      relations: {
+        intWorkerId: true,
+        flats: true,
+        intOperationTypeId: true,
+      },
     });
   };
 
